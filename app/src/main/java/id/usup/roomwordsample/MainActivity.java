@@ -3,6 +3,8 @@ package id.usup.roomwordsample;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -16,11 +18,13 @@ import android.widget.Toast;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     public static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1;
 
     private WordViewModel mWordViewModel;
+
+    IntentFilter mTimeIntentFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +75,11 @@ public class MainActivity extends AppCompatActivity {
                     R.string.empty_not_saved,
                     Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+
     }
 
 

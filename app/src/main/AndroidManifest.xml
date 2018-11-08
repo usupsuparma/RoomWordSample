@@ -19,11 +19,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NewWordActivity"></activity>
-        <service android:name=".background.Background"
+        <activity android:name=".NewWordActivity" />
+
+        <service
+            android:name=".sync.Background"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
             </intent-filter>
         </service>
     </application>
