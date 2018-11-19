@@ -4,10 +4,12 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import java.util.List;
 
 public class WordViewModel extends AndroidViewModel {
+    private static final String TAG= "WordViewModel";
 
     private WordRepository mRepository;
     // Using LiveData and caching what getAlphabetizedWords returns has several benefits:
@@ -26,7 +28,10 @@ public class WordViewModel extends AndroidViewModel {
         return mAllWords;
     }
 
-    void insert(Word word) {
+    public void insert(Word word) {
+        Log.d(TAG, "insert: "+word);
         mRepository.insert(word);
     }
+
+
 }

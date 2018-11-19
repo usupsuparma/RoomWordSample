@@ -35,4 +35,10 @@ public class Word {
         return this.mWord;
     }
 
+    public Word() {
+    }
+
+    public void setWord(@NonNull String mWord) {
+        this.mWord = mWord;
+    }
 }

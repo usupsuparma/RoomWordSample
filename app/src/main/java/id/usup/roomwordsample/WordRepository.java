@@ -3,6 +3,7 @@ package id.usup.roomwordsample;
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
  */
 
 class WordRepository {
+    private static final String TAG="WordRepository";
 
     private WordDao mWordDao;
     private LiveData<List<Word>> mAllWords;
@@ -49,6 +51,7 @@ class WordRepository {
 
         @Override
         protected Void doInBackground(final Word... params) {
+            Log.d(TAG, "doInBackground: param test"+params);
             mAsyncTaskDao.insert(params[0]);
             return null;
         }
