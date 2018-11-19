@@ -23,6 +23,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,9 +33,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 import id.usup.roomwordsample.sycn.BackgroundService;
 import id.usup.roomwordsample.utilities.WakeLocker;
+import id.usup.roomwordsample.utilities.WordWorker;
 
 
 public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -58,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     private TextView textView;
     private int counter = 0;
+    private Button mStartWorker, mCancelWorker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +74,29 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         setSupportActionBar(toolbar);
 
         textView = findViewById(R.id.tv_counter);
+        mStartWorker = findViewById(R.id.bt_begin);
+        mCancelWorker = findViewById(R.id.bt_canc);
+
+        mStartWorker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mStartWorker.setVisibility(View.INVISIBLE);
+                mCancelWorker.setVisibility(View.VISIBLE);
+
+                mWordViewModel.saveText();
+            }
+        });
+
+        mCancelWorker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                cancelWork();
+                mCancelWorker.setVisibility(View.INVISIBLE);
+                mStartWorker.setVisibility(View.VISIBLE);
+            }
+        });
 
 
         recyclerView = findViewById(R.id.recyclerview);
@@ -88,9 +117,19 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 //        insertData(word);
         //proses();
 
-        startTimer();
+        //startTimer();
 
     }
+
+
+
+    public static void cancelWork(){
+        Log.d(TAG, "cancelWork: di cancel");
+
+        WorkManager workManager = WorkManager.getInstance();
+        workManager.cancelAllWork();
+    }
+
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -114,6 +153,16 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     protected void onResume() {
 
         super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.d(TAG, "onDestroy: work on destroy");
+        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(WordWorker.class)
+                .setInitialDelay(5, TimeUnit.SECONDS).build();
+        WorkManager.getInstance().beginWith(workRequest);
+        super.onDestroy();
+
     }
 
     @Override

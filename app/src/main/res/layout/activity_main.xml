@@ -20,7 +20,27 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_main" />
+    <include
+        android:id="@+id/include"
+        layout="@layout/content_main" />
+
+    <Button
+        android:id="@+id/bt_begin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Begin"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="bottom|center" />
+
+    <Button
+        android:id="@+id/bt_canc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:visibility="invisible"
+        tools:visibility="visible"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="left|bottom" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
