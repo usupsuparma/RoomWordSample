@@ -45,27 +45,10 @@ public class WordViewModel extends AndroidViewModel {
 
     public static void saveText() {
         Log.d(TAG, "startWorker: WordViewModel::StartWorker()");
-
-
-
+        mRepository.insertData();
         // constraints digunakan untuk membatasi
         //Constraints constraints = new Constraints.Builder().build();
-        String time = String.valueOf(c.getCount());
-        Data data = new Data.Builder()
-                .putString(WordWorker.USERNAME,"username")
-                .putString(WordWorker.TIME,time)
-                .build();
 
-        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(WordWorker.class)
-                .setInitialDelay(2, TimeUnit.SECONDS)
-                .addTag("save")
-                .setInputData(data)
-                .build();
-
-        i++;
-        c.setCount(i);
-
-        WorkManager.getInstance().enqueue(workRequest);
 
     }
 

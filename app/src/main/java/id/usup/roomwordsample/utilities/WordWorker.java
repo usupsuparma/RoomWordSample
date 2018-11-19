@@ -12,6 +12,7 @@ import id.usup.roomwordsample.WordDao;
 import id.usup.roomwordsample.WordRepository;
 import id.usup.roomwordsample.WordRoomDatabase;
 
+import static id.usup.roomwordsample.WordRepository.insertData;
 import static id.usup.roomwordsample.WordViewModel.insert;
 import static id.usup.roomwordsample.WordViewModel.saveText;
 
@@ -53,7 +54,7 @@ public class WordWorker extends Worker {
             System.out.println("nilai i: " + count);
 
 
-            saveText();
+            insertData();
             count = count + 1;
             return Result.SUCCESS;
         }catch (Exception e){

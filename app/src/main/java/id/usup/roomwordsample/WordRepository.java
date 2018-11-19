@@ -6,7 +6,15 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+import id.usup.roomwordsample.utilities.WordWorker;
 
 /**
  * Abstracted Repository as promoted by the Architecture Guide.
@@ -14,6 +22,7 @@ import java.util.List;
  */
 
 public class WordRepository {
+    private static int i = 1;
 
     private static final String TAG="WordRepository";
 
@@ -59,5 +68,27 @@ public class WordRepository {
             mAsyncTaskDao.insert(params[0]);
             return null;
         }
+    }
+
+   public static void insertData(){
+        Log.d(TAG, "insertData: "+i);
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat mdformat = new SimpleDateFormat("HH:mm:ss");
+        String strDate = mdformat.format(calendar.getTime());
+        Data data = new Data.Builder()
+                .putString(WordWorker.USERNAME,"username")
+                .putString(WordWorker.TIME,strDate)
+                .build();
+
+        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(WordWorker.class)
+                .setInitialDelay(1, TimeUnit.SECONDS)
+                .addTag("save")
+                .setInputData(data)
+                .build();
+
+        i++;
+       //Log.d(TAG, "insertData: "+i);
+        WorkManager.getInstance().enqueue(workRequest);
+
     }
 }

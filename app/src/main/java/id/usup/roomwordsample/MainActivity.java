@@ -21,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        mWordViewModel.saveText();
         textView = findViewById(R.id.tv_counter);
         mStartWorker = findViewById(R.id.bt_begin);
         mCancelWorker = findViewById(R.id.bt_canc);
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 mStartWorker.setVisibility(View.INVISIBLE);
                 mCancelWorker.setVisibility(View.VISIBLE);
 
-                mWordViewModel.saveText();
+
             }
         });
 
@@ -118,6 +119,8 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         //proses();
 
         //startTimer();
+
+
 
     }
 
@@ -158,9 +161,9 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     @Override
     protected void onDestroy() {
         Log.d(TAG, "onDestroy: work on destroy");
-        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(WordWorker.class)
-                .setInitialDelay(5, TimeUnit.SECONDS).build();
-        WorkManager.getInstance().beginWith(workRequest);
+//        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(WordWorker.class)
+//                .setInitialDelay(5, TimeUnit.SECONDS).build();
+//        WorkManager.getInstance().beginWith(workRequest);
         super.onDestroy();
 
     }
@@ -169,6 +172,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
     }
+
 
 
     //save data ke database
